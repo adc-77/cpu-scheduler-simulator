@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CPU Process Scheduling Simulator</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header>
+    <h1>CPU Process Scheduling Simulator</h1>
+    <p>FCFS &bull; SJF &bull; Priority &bull; Round Robin</p>
+  </header>
+
+  <main>
+
+    <!-- Message bar: success and error messages appear here -->
+    <div id="message" class="message hidden"></div>
+
+    <!-- 1. ADD / EDIT PROCESS -->
+    <section class="card">
+      <h2>1. Processes</h2>
+
+      <form id="processForm" class="form-row">
+        <label>PID
+          <input type="text" id="pid" placeholder="P1" maxlength="20" pattern="[A-Za-z0-9_.\-]+" title="Letters, digits, _ . or -" required>
+        </label>
+        <label>Arrival Time
+          <input type="number" id="arrival" min="0" max="1000" value="0" required>
+        </label>
+        <label>Burst Time
+          <input type="number" id="burst" min="1" max="1000" value="1" required>
+        </label>
+        <label>Priority
+          <input type="number" id="priority" min="-1000" max="1000" value="1" required>
+        </label>
+        <button type="submit" id="submitBtn">Add Process</button>
+        <button type="button" id="cancelEditBtn" class="secondary hidden">Cancel</button>
+      </form>
+      <p class="hint">Priority: a lower number means higher priority (1 is the most important).</p>
+
+      <div class="button-row">
+        <button type="button" id="sampleBtn" class="secondary">Load Sample Data</button>
+        <button type="button" id="clearBtn" class="danger">Delete All Processes</button>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>PID</th><th>Arrival</th><th>Burst</th><th>Priority</th><th>Actions</th></tr>
+          </thead>
+          <tbody id="processTable"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 2. RUN A SIMULATION -->
+    <section class="card">
+      <h2>2. Run Simulation</h2>
+      <div class="form-row">
+        <label>Algorithm
+          <select id="algorithm">
+            <option value="FCFS">FCFS (First Come, First Served)</option>
+            <option value="SJF">SJF (Shortest Job First)</option>
+            <option value="PRIORITY">Priority Scheduling</option>
+            <option value="RR">Round Robin</option>
+          </select>
+        </label>
+        <label id="quantumLabel" class="hidden">Time Quantum
+          <input type="number" id="quantum" min="1" max="1000" value="2">
+        </label>
+        <button type="button" id="runBtn">Run Algorithm</button>
+        <button type="button" id="compareBtn" class="secondary">Compare All</button>
+      </div>
+    </section>
+
+    <!-- 3. RESULT OF ONE ALGORITHM -->
+    <section class="card hidden" id="resultCard">
+      <h2 id="resultTitle">Result</h2>
+
+      <h3>Gantt Chart</h3>
+      <div class="gantt-scroll">
+        <div id="gantt" class="gantt"></div>
+        <div id="ganttTimes" class="gantt-times"></div>
+      </div>
+
+      <h3>Metrics</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>PID</th><th>Arrival</th><th>Burst</th><th>Priority</th>
+                <th>Completion</th><th>Turnaround</th><th>Waiting</th></tr>
+          </thead>
+          <tbody id="resultTable"></tbody>
+        </table>
+      </div>
+
+      <div class="stats">
+        <div class="stat"><span>Average Waiting Time</span><strong id="avgWaiting">-</strong></div>
+        <div class="stat"><span>Average Turnaround Time</span><strong id="avgTurnaround">-</strong></div>
+      </div>
+    </section>
+
+    <!-- 4. COMPARISON OF ALL ALGORITHMS -->
+    <section class="card hidden" id="compareCard">
+      <h2>Algorithm Comparison</h2>
+      <p id="bestText" class="best"></p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Algorithm</th><th>Avg Waiting</th><th>Avg Turnaround</th></tr>
+          </thead>
+          <tbody id="compareTable"></tbody>
+        </table>
+      </div>
+
+      <h3>Average Waiting Time (shorter bar is better)</h3>
+      <div id="compareBars" class="bars"></div>
+
+      <h3>Gantt Charts</h3>
+      <div id="compareGantts"></div>
+    </section>
+
+    <!-- 5. HISTORY SAVED IN THE DATABASE -->
+    <section class="card">
+      <h2>3. Run History (saved in database)</h2>
+      <div class="button-row">
+        <button type="button" id="clearHistoryBtn" class="danger">Clear History</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>#</th><th>Algorithm</th><th>Quantum</th><th>Avg Waiting</th>
+                <th>Avg Turnaround</th><th>Time</th><th></th></tr>
+          </thead>
+          <tbody id="historyTable"></tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>DSA Project &mdash; built with Python, Flask, SQLite and plain JavaScript</footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
