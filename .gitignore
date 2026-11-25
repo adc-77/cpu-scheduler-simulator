@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual environment
+venv/
+.venv/
+env/
+
+# SQLite database (created automatically when the app runs)
+*.db
+*.sqlite3
+
+# Editor / OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
